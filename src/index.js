@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const MemoryStore = require('memorystore')(session);
 const app = express();
 const path = require('path');
 const hbs = require('hbs');
@@ -31,6 +32,9 @@ app.set('views', templatePath);
 
 // Add express-session middleware
 app.use(session({
+  store: new MemoryStore({
+      checkPeriod: 86400000 // Prune expired entries every 24 hours
+  }),
   secret: '8e1c5ec92dd02a86687f07a4e22a20be4073325debc60a80dca357d2afbcf362',
   resave: false,
   saveUninitialized: true
